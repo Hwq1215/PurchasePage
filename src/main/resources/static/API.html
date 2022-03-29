@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>API.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="api%E8%AF%B4%E6%98%8E">API说明</h1>
+<h2 id="%E5%85%B3%E4%BA%8E%E5%B0%81%E8%A3%85">关于封装</h2>
+<h3 id="%E6%89%80%E6%9C%89%E7%9A%84%E8%BF%94%E5%9B%9Ejson%E9%83%BD%E6%98%AF%E4%BB%A5-%E8%BF%94%E5%9B%9E%E4%BB%A3%E7%A0%81-code%E4%BF%A1%E6%81%AF%E6%B5%81-msg%E6%95%B0%E6%8D%AEdata-%E7%9A%84%E5%B0%81%E8%A3%85%E5%BD%A2%E5%BC%8F">所有的返回json都是以 返回代码 code，信息流 msg，数据data 的封装形式。</h3>
+<h3 id="%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AEdata%E4%B8%BA%E7%A9%BA%E7%9A%84%E8%BF%94%E5%9B%9Ejson%E9%83%BD%E6%98%AF%E8%AF%B4%E6%98%8E%E7%8A%B6%E6%80%81%E7%9A%84code--200%E4%B8%BA%E6%88%90%E5%8A%9Fcode--404%E4%B8%BA%E5%A4%B1%E8%B4%A5">返回数据(data)为空的返回json都是说明状态的，code = 200为成功，code = 404为失败。</h3>
+<h3 id="%E6%AF%8F%E4%B8%AAlist%E5%AF%B9%E8%B1%A1%E6%88%91%E9%83%BD%E6%9C%89%E5%94%AF%E4%B8%80%E7%9A%84%E4%BB%A3%E5%8F%B7-id%E4%BD%A0%E5%8F%AF%E4%BB%A5%E7%94%A8%E6%AD%A4%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8Cget%E6%9F%A5%E8%AF%A2">每个List对象我都有唯一的代号 id，你可以用此属性进行Get查询。</h3>
+<h3 id="%E4%BB%A5%E4%B8%8B%E7%9A%84%E5%B8%A6-%22%22%E7%9A%84-get%E8%AF%B7%E6%B1%82%E9%83%BD%E6%98%AF%E5%8F%AF%E4%BB%A5%E6%9B%BF%E6%8D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%BD%93%E4%BA%8E%E5%8F%98%E9%87%8F">以下的带 &quot;{}&quot;的 Get请求都是可以替换的数据，相当于变量。</h3>
+<p><br></br></p>
+<h2 id="%E4%B8%80%E9%A6%96%E9%A1%B5">一、首页</h2>
+<ul>
+<li>首页的元素我全部没有在数据库存储，而是静态存储。</li>
+</ul>
+<blockquote></blockquote>
+<ol>
+<li>返回除公司内容以外的首页内容，包括 tech_content，event_name，strategy_content， strategy_img</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"index/content"</span>)
+    <span class="hljs-comment">//返回数据为三个String:  tech_content，strategy_content，strategy_img</span>
+    <span class="hljs-comment">//一个List&lt;String&gt;:  event_name</span>
+</div></code></pre>
+<ol start="2">
+<li>返回要显示的公司信息, 包括 id,  company_name,  detail_message</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"index/company"</span>)
+    <span class="hljs-comment">//返回数据为一个List&lt;id, company_name, detail_message&gt;</span>
+</div></code></pre>
+<h1 id=""></h1>
+<h2 id="%E4%BA%8C%E5%8F%91%E5%B8%83">二、发布</h2>
+<ol>
+<li>后端获得传来的标志符，表示表格是否从前端成功发入</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"publish/ifSend"</span>)
+    <span class="hljs-comment">//返回数据为空</span>
+</div></code></pre>
+<ol start="2">
+<li>返回当前的步骤(未完成，这里的实现方法？)</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"publish/step"</span>)
+    <span class="hljs-comment">//返回数据为整型</span>
+</div></code></pre>
+<ol start="3">
+<li>提交项目的数据</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"publish/summit"</span>)
+    <span class="hljs-comment">//返回数据为空</span>
+</div></code></pre>
+<h1 id=""></h1>
+<h2 id="%E4%B8%89%E9%A1%B9%E7%9B%AE%E6%90%9C%E7%B4%A2%E5%B8%B8%E7%94%A8%E7%9A%84%E6%98%AF5677%E6%9C%80%E6%96%B9%E4%BE%BF%E4%BD%86%E6%98%AF%E6%95%88%E7%8E%87%E4%B8%8D%E5%A6%82get%E6%96%B9%E6%B3%95">三、项目搜索（常用的是5，6，7。7最方便但是效率不如Get方法）</h2>
+<ul>
+<li>
+<p>1的data数据是一个项目的数据</p>
+</li>
+<li>
+<p>除了1外，都是返回List&lt;项目&gt;的数据</p>
+</li>
+<li>
+<p>项目的属性：</p>
+<pre class="hljs"><code><div>  <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DealingProject</span> </span>{
+      <span class="hljs-keyword">private</span> Integer id;         <span class="hljs-comment">//项目编号</span>
+      <span class="hljs-keyword">private</span> Integer lowPrice,highPrice; <span class="hljs-comment">//价格</span>
+      <span class="hljs-keyword">private</span> Integer amount;     <span class="hljs-comment">//处理量</span>
+      <span class="hljs-keyword">private</span> String imgPath;     <span class="hljs-comment">//图片文件路径</span>
+      <span class="hljs-keyword">private</span> String port;        <span class="hljs-comment">//端口</span>
+      <span class="hljs-keyword">private</span> String type;        <span class="hljs-comment">//种类</span>
+      <span class="hljs-keyword">private</span> String name;        <span class="hljs-comment">//项目的名字</span>
+      <span class="hljs-keyword">private</span> String demand;      <span class="hljs-comment">//需求</span>
+      <span class="hljs-keyword">private</span> String introduce;   <span class="hljs-comment">//项目的内容</span>
+      <span class="hljs-keyword">private</span> String location;    <span class="hljs-comment">//项目的地域</span>
+      <span class="hljs-keyword">private</span> Integer ripe;        <span class="hljs-comment">//成熟度</span>
+      <span class="hljs-keyword">private</span> String time ;       <span class="hljs-comment">//项目开始时间</span>
+      <span class="hljs-keyword">private</span> String tag1;         <span class="hljs-comment">//标签1</span>
+      <span class="hljs-keyword">private</span> String tag2;         <span class="hljs-comment">//标签2</span>
+      <span class="hljs-keyword">private</span> String tag3;         <span class="hljs-comment">//标志3</span>
+  }
+</div></code></pre>
+</li>
+<li>
+<p>如果返回空值,返回时 code = 404，msg = &quot;fail:no exist&quot;</p>
+</li>
+</ul>
+<p><br></b></p>
+<ol>
+<li>根据项目的id查询（变量是数字整型）</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/byId/{id}"</span>)
+</div></code></pre>
+<ol start="2">
+<li>访问所有项目</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/all"</span>)
+</div></code></pre>
+<ol start="3">
+<li>根据项目的类型查询（变量是字符串）</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/byType/{type}"</span>)
+</div></code></pre>
+<ol start="4">
+<li>根据项目的地点查询</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/byLocation/{location}"</span>)
+</div></code></pre>
+<ol start="5">
+<li><strong>根据项目的关键词模糊匹配查询，包括 项目的name、location、type、tag  （搜索框的位置）</strong></li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/byKeyword/{keyword}"</span>)
+</div></code></pre>
+<ol start="6">
+<li><strong>和上面类似，但是限定了地点 （城市选择的位置）</strong></li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/byKeywordByLocation/{keyword}/{location}"</span>)
+</div></code></pre>
+<ol start="7">
+<li><strong>这个是post请求，你把要查询要用到的数据用post请求发送过来（可以发一个或多个条件），分别有四个参数（注意下列参数名字的大小写）：</strong>
+<ul>
+<li>
+<p>keyword    //匹配的关键词</p>
+</li>
+<li>
+<p>location   //确定的地点</p>
+</li>
+<li>
+<p>lowPrice   //最低价格</p>
+</li>
+<li>
+<p>highPrice  //最高价格</p>
+</li>
+</ul>
+</li>
+</ol>
+<pre class="hljs"><code><div>   <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"searchProject/byKeywordByLocationByPrice"</span>)
+</div></code></pre>
+<p><br></b></p>
+<ul>
+<li>下面的的排序做一个说明，以上2，5，6，7每一次Get得到数据后，后端会缓存最后一次查询的结果，并且根据缓存的数据来排序，如果还没有进行Get，那么目前暂存的是全部的项目数据。 这样你前端就可以完成先搜索再排序或直接全局排序的操作，后端也不用频繁访问数据库。</li>
+</ul>
+<ol start="8">
+<li>根据价格升序获得排序后的序列</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(value = {
+        <span class="hljs-string">"searchProject/order/price"</span> ,
+        <span class="hljs-string">"searchProject/order/price/asc"</span>
+        })
+    <span class="hljs-comment">//两者都可以访问到</span>
+</div></code></pre>
+<ol start="9">
+<li>与8同理，顺序相反</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/order/price/dec"</span>)
+</div></code></pre>
+<ol start="10">
+<li>与8同理，根据日期升序来排序</li>
+</ol>
+<pre class="hljs"><code><div>     <span class="hljs-meta">@GetMapping</span>(value = {
+         <span class="hljs-string">"searchProject/order/time/asc"</span> ,
+         <span class="hljs-string">"searchProject/order/time"</span>
+         })
+</div></code></pre>
+<ol start="11">
+<li>与10相反</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"searchProject/order/time/dec"</span>)
+</div></code></pre>
+<h1 id=""></h1>
+<h2 id="%E5%9B%9B%E5%92%A8%E8%AF%A2">四、咨询</h2>
+<ul>
+<li>咨询类我就做了一个post的提交，其他现在感觉需求还没有确定。</li>
+</ul>
+<ol>
+<li>post提交咨询</li>
+</ol>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"consult"</span>)
+    <span class="hljs-comment">//返回数据为空</span>
+</div></code></pre>
+<h1 id=""></h1>
+<h2 id="%E4%BA%94%E7%99%BB%E5%BD%95">五、登录</h2>
+<ol>
+<li>用户登录</li>
+</ol>
+<pre class="hljs"><code><div>   <span class="hljs-meta">@PostMapping</span> (<span class="hljs-string">"login/in"</span>)
+   <span class="hljs-comment">//提交的表单数据</span>
+   fromdata{
+       String useId;
+       String password;
+   }
+</div></code></pre>
+<hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">状态</th>
+<th style="text-align:left">返回编码（code）</th>
+<th style="text-align:left">返回消息（msg）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">存在该用户且密码正确</td>
+<td style="text-align:left">200</td>
+<td style="text-align:left">user exist and password correct</td>
+</tr>
+<tr>
+<td style="text-align:left">存在用户但密码错误</td>
+<td style="text-align:left">402</td>
+<td style="text-align:left">user exist but password incorrect</td>
+</tr>
+<tr>
+<td style="text-align:left">不存在用户</td>
+<td style="text-align:left">403</td>
+<td style="text-align:left">user no exist</td>
+</tr>
+</tbody>
+</table>
+<p>2.用户信息暂定</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>{
+    <span class="hljs-keyword">private</span> Integer useId;
+    <span class="hljs-keyword">private</span> String password;
+    <span class="hljs-keyword">private</span> String username;
+    }
+</div></code></pre>
+
+</body>
+</html>
